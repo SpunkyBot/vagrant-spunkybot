@@ -1,4 +1,4 @@
-# Vagrant
+# Vagrant file for Spunky Bot
 Vagrant virtual machine with Spunky Bot service running
 
 ## Requirements
