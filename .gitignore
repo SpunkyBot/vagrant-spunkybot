@@ -1,0 +1,14 @@
+# Vagrant machines
+.vagrant/
+
+# SVN
+.svn/
+
+# OSX
+.DS_Store
+
+# Backup files
+*.*~
+
+# Swap files
+*.sw[po]
