@@ -174,6 +174,8 @@ set  g_loghits      "1"
 set  g_mapcycle     "mapcycle.txt"
 set  g_gametype     "4"
 set  g_matchmode    "0"
+set  g_friendlyfire "2"
+set  timelimit      "10"
 map  ut4_turnpike
 reload
 EOF
