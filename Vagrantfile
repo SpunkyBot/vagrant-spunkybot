@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   # Specify the base box
-  config.vm.box = "hashicorp/precise32"
+  config.vm.box = "ubuntu/xenial32"
 
   # Setup port forwarding
   config.vm.network "forwarded_port", guest: 27960, host: 27960, protocol: 'udp'
@@ -16,8 +16,8 @@ Vagrant.configure(2) do |config|
   # Virtualbox setup
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = 384
-    vb.name = "Spunky Bot"
+    vb.memory = 512
+    vb.name = "Spunky Bot - Ubuntu 16.04"
   end
 
   # Provisioning
@@ -186,8 +186,8 @@ chown -R vagrant:vagrant /opt/urbanterror
 echo "--> Provisioning virtual machine..."
 apt-get update -q
 
-echo "--> Installing nginx and php5..."
-apt-get install -y -q -f nginx php5-fpm php5-common php5-sqlite
+echo "--> Installing nginx and php7.0..."
+apt-get install -y -q -f nginx php7.0-fpm php7.0-common php7.0-sqlite
 
 echo "--> Configuring nginx..."
 touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
@@ -203,7 +203,7 @@ server {
     location ~* \.php {
         try_files $uri =404;
         include fastcgi_params;
-        fastcgi_pass 127.0.0.1:9000; 
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock; 
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_cache off;
         fastcgi_index index.php;
@@ -212,14 +212,14 @@ server {
 EOF
 
 ln -s /etc/nginx/sites-available/nginx_vhost /etc/nginx/sites-enabled/
-rm -rf /etc/nginx/sites-enabled/default && rm -rf /var/www/index*.html
+rm -rf /etc/nginx/sites-enabled/default && rm -rf /var/www/html
 
 echo "--> Downloading latest PRISM version..."
 wget -qO- https://github.com/SpunkyBot/PRISM/archive/master.tar.gz | tar -xz --strip-components=1 --directory=/var/www
 chown -R vagrant:vagrant /var/www
 
 echo "--> Restarting services..."
-service nginx restart && service php5-fpm restart
+service nginx restart && service php7.0-fpm restart
 
 SCRIPT
 
