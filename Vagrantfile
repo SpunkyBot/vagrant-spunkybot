@@ -186,8 +186,8 @@ chown -R vagrant:vagrant /opt/urbanterror
 echo "--> Provisioning virtual machine..."
 apt-get update -q
 
-echo "--> Installing nginx and php7.0..."
-apt-get install -y -q -f nginx php7.0-fpm php7.0-common php7.0-sqlite
+echo "--> Installing python2, nginx and php7.0..."
+apt-get install -y -q -f python-minimal nginx php7.0-fpm php7.0-common php7.0-sqlite
 
 echo "--> Configuring nginx..."
 touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
