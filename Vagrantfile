@@ -219,7 +219,7 @@ wget -qO- https://github.com/SpunkyBot/PRISM/archive/master.tar.gz | tar -xz --s
 chown -R vagrant:vagrant /var/www
 
 echo "--> Restarting services..."
-service nginx restart && service php7.0-fpm restart
+
 
 SCRIPT
 
