@@ -218,8 +218,11 @@ echo "--> Downloading latest PRISM version..."
 wget -qO- https://github.com/SpunkyBot/PRISM/archive/master.tar.gz | tar -xz --strip-components=1 --directory=/var/www
 chown -R vagrant:vagrant /var/www
 
-echo "--> Restarting services..."
+echo "--> Allowing SSH password authentication..."
+sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 
+echo "--> Restarting services..."
+service ssh restart && service nginx restart && service php7.0-fpm restart
 
 SCRIPT
 
