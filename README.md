@@ -26,4 +26,6 @@ You can reach the game server by pointing your client to: `/connect 127.0.0.1:27
 
 The default `rconpassword` is: _secretpassword_
 
-We are shipping this virtual machine appliance with a basic setup to run the Urban Terror server with support of the latest Spunky Bot version. Please feel free to configure the setup to your needs.
+PRISM, the web frontend for Spunky Bot, is reachable via your web browser: `http://127.0.0.1`
+
+We are shipping this virtual machine appliance with a basic setup to run the Urban Terror server with support of the latest Spunky Bot and PRISM version. Please feel free to configure the setup to your needs.

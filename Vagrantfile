@@ -8,6 +8,7 @@ Vagrant.configure(2) do |config|
 
   # Setup port forwarding
   config.vm.network "forwarded_port", guest: 27960, host: 27960, protocol: 'udp'
+  config.vm.network "forwarded_port", guest: 80, host: 80, auto_correct: true
 
   # Sync folder setup
   config.vm.synced_folder "C:/Urbanterror43", "/var/opt/urbanterror"
@@ -181,6 +182,45 @@ reload
 EOF
 
 chown -R vagrant:vagrant /opt/urbanterror
+
+echo "--> Provisioning virtual machine..."
+apt-get update -q
+
+echo "--> Installing nginx and php5..."
+apt-get install -y -q -f nginx php5-fpm php5-common php5-sqlite
+
+echo "--> Configuring nginx..."
+touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
+server {
+    listen 80;
+    server_name localhost;
+    root /var/www/;
+    index index.php;
+    sendfile off;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    location ~* \.php {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000; 
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_cache off;
+        fastcgi_index index.php;
+    }
+}
+EOF
+
+ln -s /etc/nginx/sites-available/nginx_vhost /etc/nginx/sites-enabled/
+rm -rf /etc/nginx/sites-enabled/default && rm -rf /var/www/index*.html
+
+echo "--> Downloading latest PRISM version..."
+wget -qO- https://github.com/SpunkyBot/PRISM/archive/master.tar.gz | tar -xz --strip-components=1 --directory=/var/www
+chown -R vagrant:vagrant /var/www
+
+echo "--> Restarting services..."
+service nginx restart && service php5-fpm restart
+
 SCRIPT
 
   config.vm.provision "shell", inline: $script
