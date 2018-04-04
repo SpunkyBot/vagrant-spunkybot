@@ -22,7 +22,41 @@ Vagrant.configure(2) do |config|
 
   # Provisioning
   $script = <<SCRIPT
-echo "--> Installing initscripts..."
+echo "--> Installing systemd scripts..."
+touch /etc/systemd/system/urbanterror.service && cat >> /etc/systemd/system/urbanterror.service <<'EOF'
+[Unit]
+Description=Urban Terror server
+After=network.target
+
+[Service]
+User=vagrant
+ExecStart=/var/opt/urbanterror/Quake3-UrT-Ded.i386 +set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg
+StandardOutput=null
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+touch /etc/systemd/system/spunkybots.service && cat >> /etc/systemd/system/spunkybot.service <<'EOF'
+[Unit]
+Description=Spunky Bot
+After=network.target
+
+[Service]
+User=vagrant
+WorkingDirectory=/opt/spunkybot
+ExecStart=/usr/bin/python spunky.py
+StandardOutput=null
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo "--> Installing sysVinit script..."
 touch /etc/init.d/urbanterror && cat >> /etc/init.d/urbanterror <<'EOF'
 #!/bin/sh
 #
