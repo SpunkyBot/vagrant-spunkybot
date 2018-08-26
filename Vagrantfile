@@ -199,18 +199,18 @@ ut4_algiers
 EOF
 
 touch /opt/urbanterror/.q3a/q3ut4/vagrantserver.cfg && cat >> /opt/urbanterror/.q3a/q3ut4/vagrantserver.cfg <<'EOF'
-set  g_motd         "Powered by www.spunkybot.de"
-set  rconpassword   "secretpassword"
-set  sv_hostname    "Spunky Bot"
-set  sv_joinmessage "Powered by Spunky Bot"
-set  auth_enable    "0"
-set  g_logsync      "1"
-set  g_loghits      "1"
-set  g_mapcycle     "mapcycle.txt"
-set  g_gametype     "4"
-set  g_matchmode    "0"
-set  g_friendlyfire "2"
-set  timelimit      "10"
+seta  g_motd         "Powered by www.spunkybot.de"
+seta  rconpassword   "secretpassword"
+seta  sv_hostname    "Spunky Bot"
+seta  sv_joinmessage "Powered by Spunky Bot"
+seta  auth_enable    "0"
+seta  g_logsync      "1"
+seta  g_loghits      "1"
+seta  g_mapcycle     "mapcycle.txt"
+seta  g_gametype     "4"
+seta  g_matchmode    "0"
+seta  g_friendlyfire "2"
+seta  timelimit      "10"
 map  ut4_turnpike
 reload
 EOF
