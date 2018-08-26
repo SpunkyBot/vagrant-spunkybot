@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   # Specify the base box
-  config.vm.box = "ubuntu/xenial32"
+  config.vm.box = "ubuntu/bionic64"
 
   # Setup port forwarding
   config.vm.network "forwarded_port", guest: 27960, host: 27960, protocol: 'udp'
@@ -16,8 +16,8 @@ Vagrant.configure(2) do |config|
   # Virtualbox setup
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = 512
-    vb.name = "Spunky Bot - Ubuntu 16.04"
+    vb.memory = 768
+    vb.name = "Spunky Bot - Ubuntu 18.04"
   end
 
   # Provisioning
@@ -30,7 +30,7 @@ After=network.target
 
 [Service]
 User=vagrant
-ExecStart=/var/opt/urbanterror/Quake3-UrT-Ded.i386 +set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg
+ExecStart=/var/opt/urbanterror/Quake3-UrT-Ded.x86_64 +set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg
 StandardOutput=null
 Type=simple
 Restart=on-failure
@@ -74,7 +74,7 @@ set -e
 . /lib/lsb/init-functions
 USER=vagrant
 GROUP=vagrant
-DAEMON=/var/opt/urbanterror/Quake3-UrT-Ded.i386
+DAEMON=/var/opt/urbanterror/Quake3-UrT-Ded.x86_64
 OPTIONS="+set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg"
 # Check that the package is still installed
 test -x $DAEMON || exit 0
@@ -220,8 +220,8 @@ chown -R vagrant:vagrant /opt/urbanterror
 echo "--> Provisioning virtual machine..."
 apt-get update -q
 
-echo "--> Installing python2, nginx and php7.0..."
-apt-get install -y -q -f python-minimal nginx php7.0-fpm php7.0-common php7.0-sqlite
+echo "--> Installing python2, nginx and php7.2..."
+apt-get install -y -q -f python-minimal nginx php7.2-fpm php7.2-common php7.2-sqlite3
 
 echo "--> Configuring nginx..."
 touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
@@ -237,7 +237,7 @@ server {
     location ~* \.php {
         try_files $uri =404;
         include fastcgi_params;
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock; 
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock; 
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_cache off;
         fastcgi_index index.php;
@@ -256,7 +256,7 @@ echo "--> Allowing SSH password authentication..."
 sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 
 echo "--> Restarting services..."
-service ssh restart && service nginx restart && service php7.0-fpm restart
+service ssh restart && service nginx restart && service php7.2-fpm restart
 
 SCRIPT
 
