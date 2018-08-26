@@ -56,7 +56,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-echo "--> Installing sysVinit script..."
+echo "--> Installing sysVinit scripts..."
 touch /etc/init.d/urbanterror && cat >> /etc/init.d/urbanterror <<'EOF'
 #!/bin/sh
 #
