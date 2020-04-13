@@ -30,7 +30,7 @@ After=network.target
 
 [Service]
 User=vagrant
-ExecStart=/var/opt/urbanterror/Quake3-UrT-Ded.x86_64 +set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg
+ExecStart=/var/opt/urbanterror/Quake3-UrT-Ded.x86_64 +set fs_game q3ut4 +set dedicated 2 +set use_defaultHomePath 0 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg
 StandardOutput=null
 Type=simple
 Restart=on-failure
