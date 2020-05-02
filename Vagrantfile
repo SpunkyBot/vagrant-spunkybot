@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   # Provisioning
   $script = <<SCRIPT
 echo "--> Installing systemd scripts..."
-touch /etc/systemd/system/urbanterror.service && cat >> /etc/systemd/system/urbanterror.service <<'EOF'
+touch /lib/systemd/system/urbanterror.service && cat >> /lib/systemd/system/urbanterror.service <<'EOF'
 [Unit]
 Description=Urban Terror server
 After=network.target
@@ -39,7 +39,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOF
 
-touch /etc/systemd/system/spunkybots.service && cat >> /etc/systemd/system/spunkybot.service <<'EOF'
+touch /lib/systemd/system/spunkybots.service && cat >> /lib/systemd/system/spunkybot.service <<'EOF'
 [Unit]
 Description=Spunky Bot
 After=network.target
@@ -220,8 +220,8 @@ chown -R vagrant:vagrant /opt/urbanterror
 echo "--> Provisioning virtual machine..."
 apt-get update -q
 
-echo "--> Installing python2, nginx and php7.2..."
-apt-get install -y -q -f python-minimal nginx php7.2-fpm php7.2-common php7.2-sqlite3
+echo "--> Installing python2.7, nginx and php7.2..."
+apt-get install -y -q -f python2.7 python nginx php7.2-fpm php7.2-common php7.2-sqlite3
 
 echo "--> Configuring nginx..."
 touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
@@ -237,7 +237,7 @@ server {
     location ~* \.php {
         try_files $uri =404;
         include fastcgi_params;
-        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock; 
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_cache off;
         fastcgi_index index.php;
