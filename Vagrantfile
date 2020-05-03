@@ -75,7 +75,7 @@ set -e
 USER=vagrant
 GROUP=vagrant
 DAEMON=/var/opt/urbanterror/Quake3-UrT-Ded.x86_64
-OPTIONS="+set fs_game q3ut4 +set dedicated 2 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg"
+OPTIONS="+set fs_game q3ut4 +set dedicated 2 +set use_defaultHomePath 0 +set fs_homepath /opt/urbanterror/.q3a +set net_port 27960 +set com_hunkmegs 128 +exec vagrantserver.cfg"
 # Check that the package is still installed
 test -x $DAEMON || exit 0
 case "$1" in
