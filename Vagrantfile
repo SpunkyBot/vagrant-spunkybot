@@ -39,7 +39,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOF
 
-touch /lib/systemd/system/spunkybots.service && cat >> /lib/systemd/system/spunkybot.service <<'EOF'
+touch /lib/systemd/system/spunkybot.service && cat >> /lib/systemd/system/spunkybot.service <<'EOF'
 [Unit]
 Description=Spunky Bot
 After=network.target
