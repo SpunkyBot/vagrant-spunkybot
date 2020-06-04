@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   # Specify the base box
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/focal64"
 
   # Setup port forwarding
   config.vm.network "forwarded_port", guest: 27960, host: 27970, protocol: 'udp'
@@ -15,9 +15,11 @@ Vagrant.configure(2) do |config|
 
   # Virtualbox setup
   config.vm.provider "virtualbox" do |vb|
+    # workaround for https://bugs.launchpad.net/cloud-images/+bug/1874453
+    vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
     # Customize the amount of memory on the VM:
-    vb.memory = 768
-    vb.name = "Spunky Bot - Ubuntu 18.04"
+    vb.memory = 1024
+    vb.name = "Spunky Bot - Ubuntu 20.04"
   end
 
   # Provisioning
@@ -220,8 +222,8 @@ chown -R vagrant:vagrant /opt/urbanterror
 echo "--> Provisioning virtual machine..."
 apt-get update -q
 
-echo "--> Installing python2.7, nginx and php7.2..."
-apt-get install -y -q -f python2.7 python nginx php7.2-fpm php7.2-common php7.2-sqlite3
+echo "--> Installing python2.7, nginx and php7.4..."
+apt-get install -y -q -f python2.7 python nginx php7.4-fpm php7.4-common php7.4-sqlite3
 
 echo "--> Configuring nginx..."
 touch /etc/nginx/sites-available/nginx_vhost && cat >> /etc/nginx/sites-available/nginx_vhost <<'EOF'
@@ -237,7 +239,7 @@ server {
     location ~* \.php {
         try_files $uri =404;
         include fastcgi_params;
-        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_cache off;
         fastcgi_index index.php;
@@ -256,7 +258,7 @@ echo "--> Allowing SSH password authentication..."
 sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 
 echo "--> Restarting services..."
-service ssh restart && service nginx restart && service php7.2-fpm restart
+service ssh restart && service nginx restart && service php7.4-fpm restart
 
 SCRIPT
 
