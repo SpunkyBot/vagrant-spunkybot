@@ -31,7 +31,7 @@ $ sudo service urbanterror start
 $ sudo service spunkybot start
 ```
 
-You can reach the game server by pointing your client to: `/connect 127.0.0.1:27960`
+You can reach the game server by pointing your client to: `/connect 127.0.0.1:27970`
 
 The default `rconpassword` is: _secretpassword_
 

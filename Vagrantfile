@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/bionic64"
 
   # Setup port forwarding
-  config.vm.network "forwarded_port", guest: 27960, host: 27960, protocol: 'udp'
+  config.vm.network "forwarded_port", guest: 27960, host: 27970, protocol: 'udp'
   config.vm.network "forwarded_port", guest: 80, host: 80, auto_correct: true
 
   # Sync folder setup
