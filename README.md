@@ -18,7 +18,7 @@ Otherwise you need to modify the path in the `Vagrantfile` before starting the v
 These steps will create a Vagrant virtual machine for VirtualBox with Spunky Bot service running:
 
 ```shell
-$ wget https://raw.githubusercontent.com/SpunkyBot/vagrant-spunkybot/master/Vagrantfile
+$ wget https://raw.githubusercontent.com/SpunkyBot/vagrant-spunkybot/main/Vagrantfile
 $ vagrant up
 ```
 
